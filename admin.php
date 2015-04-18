@@ -20,36 +20,25 @@
 	</body>
 </html>
 <?php
-// 
 
-	
-	
+	include 'database.php';
+
 	if ( $_REQUEST ) {
 		$serverName = 'localhost';
-		$userName = "root";
-		$password = "";
+		$userName = "rajdeep";
+		$password = "barman";
 		$dbname = "mdb";
 	
-	//connecting
-	$conn = mysqli_connect($serverName, $userName, $password, $dbname);
-	
-	if (!$conn) {
-		die("Connection failed: ". mysqli_connect_error());
+		$db = new database();
+		$conn = $db->dbConnect($serverName, $userName, $password, $dbname);
+
+		$name = $_GET['name'];
+		$rating = $_GET['iRating'];
+		$cast = $_GET['cast'];
+		$year = $_GET['year'];
+		$abc = "insert into movies(name, imdbRating, cast, year) values('".$name."',".$rating.",'".$cast."',".$year.")";
+		$db->dbQuery($conn, $abc);
+		$db->dbCloseConnect($conn);
 	}
-	echo "Connection successful". "\n";
-	$name = $_GET['name'];
-	$rating = $_GET['iRating'];
-	$cast = $_GET['cast'];
-	$year = $_GET['year'];
-	$abc = "insert into movies(name, imdbRating, cast, year) values('".$name."',".$rating.",'".$cast."',".$year.")";
-	echo $abc;
-	try {
-		mysqli_query($conn, $abc);	
-	} catch (Exception $e) {
-		echo 'Error'. $e->getMessage(). "\n";
-	}
-	mysqli_close($conn);
-	}
-	
-	
+		
 ?>
