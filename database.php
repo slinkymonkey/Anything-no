@@ -20,10 +20,16 @@ class database {
 
 	public function dbQuery($conn, $queryString) {
 		try {
-			if (mysqli_query($conn, $queryString) == true) {
-				return;
-			} else if (mysqli_query($conn, $queryString) == false) {
-				echo "<div style='color: red;font-family: sans-serif;font-size: 12px'>Error in query: ".$queryString."</div>";	
+			$result = mysqli_query($conn, $queryString);
+			if ( $result === true) {
+				echo "<div style='color: green;font-family: sans-serif;font-size: 12px'>Query run Successfully: ".$queryString."</div>";
+				return $result;
+			} else if ( $result === false) {
+				echo "<div style='color: red;font-family: sans-serif;font-size: 12px'>Error in query: ".$queryString."</div>";
+				return $result;	
+			} else {
+				echo "<div style='color: green;font-family: sans-serif;font-size: 12px'>Query run Successfully. You get a return object</div>";
+				return mysqli_query($conn, $queryString);
 			}
 		} catch (Exception $e) {
 			echo "<div style='color: red;font-family: sans-serif;font-size: 12px'>Query Error: ". $e->getMessage()."</div>";
